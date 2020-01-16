@@ -1,6 +1,7 @@
 <template>
   <v-autocomplete
-    v-model="model"
+    @input="boop($event)"
+    :value="model"
     :items="items"
     :loading="isLoading"
     :search-input.sync="search"
@@ -9,38 +10,56 @@
     hide-no-data
     hide-selected
     return-object
-    ><template v-slot:append-item><v-btn block>Load more</v-btn></template>
+    cache-items
+    hide-details
+    prepend-icon="mdi-magnify"
+    placeholder="Search for a game..."
+  >
   </v-autocomplete>
 </template>
 
 <script>
+import axios from "axios";
+import debounce from "debounce-async";
+
 export default {
   data: () => ({
     model: null,
     items: [],
     isLoading: false,
-    search: null
+    search: null,
+    dialog: false
   }),
+  methods: {
+    fetchData: debounce(async function(searchTerm) {
+      const { data } = await axios.get(
+        `https://api.rawg.io/api/games?search=${searchTerm}&page_size=40`
+      );
+      this.items = data.results;
+    }, 500),
+    boop(ev) {
+      console.log("BOOPING", ev);
+      this.model = ev;
+      this.$emit("new", ev);
+    }
+  },
   watch: {
-    search(val) {
-      // Items have already been requested
-      if (this.isLoading) return;
+    async search(val) {
+      if (this.model && val === this.model.name) {
+        return;
+      }
+      console.log("logging", val);
 
       this.isLoading = true;
-
-      // Lazily load input items
-      fetch(`https://api.rawg.io/api/games?search=${val}&page_size=40`)
-        .then(res => res.json())
-        .then(res => {
-          const { count, results } = res;
-          this.count = count;
-          this.items = results;
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        })
-        .finally(() => (this.isLoading = false));
+      try {
+        await this.fetchData(val);
+      } catch (e) {
+        if (e !== "canceled") {
+          // TODO: handle errors
+          console.log(e);
+        }
+      }
+      this.isLoading = false;
     }
   }
 };

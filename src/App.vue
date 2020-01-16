@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app>
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
@@ -20,7 +20,8 @@
           width="100"
         />
       </div>
-
+      <v-spacer></v-spacer>
+      <game-search @new="openDialog($event)" />
       <v-spacer></v-spacer>
 
       <v-btn
@@ -40,11 +41,20 @@
 </template>
 
 <script>
+import GameSearch from "@/components/GameSearch";
+
 export default {
   name: "App",
-
+  components: {
+    GameSearch
+  },
   data: () => ({
     //
-  })
+  }),
+  methods: {
+    openDialog(data) {
+      console.log("IN APP", data);
+    }
+  }
 };
 </script>
