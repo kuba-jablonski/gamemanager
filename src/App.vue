@@ -36,6 +36,28 @@
 
     <v-content>
       <router-view />
+      <v-dialog v-model="dialog" max-width="290" @click:outside="onCloseDialog">
+        <v-card v-if="game">
+          <v-card-title class="headline">{{ game.name }}</v-card-title>
+
+          <v-card-text>
+            Let Google help apps determine location. This means sending
+            anonymous location data to Google, even when no apps are running.
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn color="green darken-1" text @click="dialog = false">
+              Disagree
+            </v-btn>
+
+            <v-btn color="green darken-1" text @click="dialog = false">
+              Agree
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-content>
   </v-app>
 </template>
@@ -49,11 +71,18 @@ export default {
     GameSearch
   },
   data: () => ({
-    //
+    dialog: false,
+    game: null
   }),
   methods: {
-    openDialog(data) {
+    openDialog({ data, reset }) {
       console.log("IN APP", data);
+      this.game = data;
+      this.dialog = true;
+      this.resetFn = reset;
+    },
+    onCloseDialog() {
+      this.resetFn();
     }
   }
 };

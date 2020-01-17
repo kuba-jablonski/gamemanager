@@ -32,15 +32,23 @@ export default {
   }),
   methods: {
     fetchData: debounce(async function(searchTerm) {
+      if (searchTerm.trim() === "") return;
+      this.isLoading = true;
       const { data } = await axios.get(
         `https://api.rawg.io/api/games?search=${searchTerm}&page_size=40`
       );
       this.items = data.results;
+      this.isLoading = false;
     }, 500),
     boop(ev) {
       console.log("BOOPING", ev);
       this.model = ev;
-      this.$emit("new", ev);
+      this.$emit("new", {
+        data: ev,
+        reset: () => {
+          this.model = null;
+        }
+      });
     }
   },
   watch: {
@@ -49,8 +57,6 @@ export default {
         return;
       }
       console.log("logging", val);
-
-      this.isLoading = true;
       try {
         await this.fetchData(val);
       } catch (e) {
@@ -59,7 +65,6 @@ export default {
           console.log(e);
         }
       }
-      this.isLoading = false;
     }
   }
 };
