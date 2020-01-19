@@ -3,6 +3,8 @@
     <template v-slot:search>
       <game-search v-model="game" />
     </template>
+
+    <!-- DIALOG START -->
     <v-dialog v-model="dialog" max-width="700" @click:outside="onCloseDialog">
       <v-card v-if="gameDetails">
         <v-img
@@ -17,21 +19,27 @@
 
             <v-speed-dial v-model="fab" small right absolute direction="left">
               <template v-slot:activator>
-                <v-btn @click="fab" small fab>
+                <v-btn small fab>
                   <v-icon v-if="fab">mdi-close</v-icon>
                   <v-icon v-else>mdi-plus</v-icon>
                 </v-btn>
               </template>
-              <v-btn fab dark small color="blue-grey">
+              <v-btn
+                @click="addToLog('completed')"
+                fab
+                dark
+                small
+                color="blue-grey"
+              >
                 <v-icon>mdi-check</v-icon>
               </v-btn>
-              <v-btn fab dark small color="amber">
+              <v-btn @click="addToLog('wishlist')" fab dark small color="amber">
                 <v-icon>mdi-star</v-icon>
               </v-btn>
-              <v-btn fab dark small color="cyan">
+              <v-btn @click="addToLog('backlog')" fab dark small color="cyan">
                 <v-icon>mdi-view-list</v-icon>
               </v-btn>
-              <v-btn fab dark small color="green">
+              <v-btn @click="addToLog('active')" fab dark small color="green">
                 <v-icon>mdi-play</v-icon>
               </v-btn>
             </v-speed-dial>
@@ -45,6 +53,8 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <!-- DIALOG END -->
+
     <v-container fluid>
       <v-row>
         <v-col>
@@ -54,28 +64,9 @@
               <v-toolbar-title>Currently playing</v-toolbar-title>
             </v-toolbar>
 
-            <v-list-item>
+            <v-list-item v-for="game in active" :key="game.id">
               <v-list-item-content>
-                <v-list-item-title>Single-line item</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item two-line>
-              <v-list-item-content>
-                <v-list-item-title>Two-line item</v-list-item-title>
-                <v-list-item-subtitle>Secondary text</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item three-line>
-              <v-list-item-content>
-                <v-list-item-title>Three-line item</v-list-item-title>
-                <v-list-item-subtitle>
-                  Secondary line text Lorem ipsum dolor sit amet,
-                </v-list-item-subtitle>
-                <v-list-item-subtitle>
-                  consectetur adipiscing elit.
-                </v-list-item-subtitle>
+                <v-list-item-title>{{ game.name }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -87,28 +78,9 @@
               <v-toolbar-title>Backlog</v-toolbar-title>
             </v-toolbar>
 
-            <v-list-item>
+            <v-list-item v-for="game in backlog" :key="game.id">
               <v-list-item-content>
-                <v-list-item-title>Single-line item</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item two-line>
-              <v-list-item-content>
-                <v-list-item-title>Two-line item</v-list-item-title>
-                <v-list-item-subtitle>Secondary text</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item three-line>
-              <v-list-item-content>
-                <v-list-item-title>Three-line item</v-list-item-title>
-                <v-list-item-subtitle>
-                  Secondary line text Lorem ipsum dolor sit amet,
-                </v-list-item-subtitle>
-                <v-list-item-subtitle>
-                  consectetur adipiscing elit.
-                </v-list-item-subtitle>
+                <v-list-item-title>{{ game.name }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -120,28 +92,9 @@
               <v-toolbar-title>Wishlist</v-toolbar-title>
             </v-toolbar>
 
-            <v-list-item>
+            <v-list-item v-for="game in wishlist" :key="game.id">
               <v-list-item-content>
-                <v-list-item-title>Single-line item</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item two-line>
-              <v-list-item-content>
-                <v-list-item-title>Two-line item</v-list-item-title>
-                <v-list-item-subtitle>Secondary text</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item three-line>
-              <v-list-item-content>
-                <v-list-item-title>Three-line item</v-list-item-title>
-                <v-list-item-subtitle>
-                  Secondary line text Lorem ipsum dolor sit amet,
-                </v-list-item-subtitle>
-                <v-list-item-subtitle>
-                  consectetur adipiscing elit.
-                </v-list-item-subtitle>
+                <v-list-item-title>{{ game.name }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -153,28 +106,9 @@
               <v-toolbar-title>Completed</v-toolbar-title>
             </v-toolbar>
 
-            <v-list-item>
+            <v-list-item v-for="game in completed" :key="game.id">
               <v-list-item-content>
-                <v-list-item-title>Single-line item</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item two-line>
-              <v-list-item-content>
-                <v-list-item-title>Two-line item</v-list-item-title>
-                <v-list-item-subtitle>Secondary text</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item three-line>
-              <v-list-item-content>
-                <v-list-item-title>Three-line item</v-list-item-title>
-                <v-list-item-subtitle>
-                  Secondary line text Lorem ipsum dolor sit amet,
-                </v-list-item-subtitle>
-                <v-list-item-subtitle>
-                  consectetur adipiscing elit.
-                </v-list-item-subtitle>
+                <v-list-item-title>{{ game.name }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -205,6 +139,23 @@ export default {
       this.dialog = false;
       this.game = null;
       this.gameDetails = null;
+    },
+    addToLog(type) {
+      this.$store.commit("addToLog", { type, game: this.gameDetails });
+    }
+  },
+  computed: {
+    active() {
+      return this.$store.state.log.active;
+    },
+    backlog() {
+      return this.$store.state.log.backlog;
+    },
+    wishlist() {
+      return this.$store.state.log.wishlist;
+    },
+    completed() {
+      return this.$store.state.log.completed;
     }
   },
   watch: {
