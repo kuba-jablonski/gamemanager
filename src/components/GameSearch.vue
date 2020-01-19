@@ -1,7 +1,7 @@
 <template>
   <v-autocomplete
-    @input="boop($event)"
-    :value="model"
+    @input="$emit('input', $event)"
+    :value="value"
     :items="items"
     :loading="isLoading"
     :search-input.sync="search"
@@ -23,8 +23,8 @@ import axios from "axios";
 import debounce from "debounce-async";
 
 export default {
+  props: ["value"],
   data: () => ({
-    model: null,
     items: [],
     isLoading: false,
     search: null,
@@ -32,31 +32,24 @@ export default {
   }),
   methods: {
     fetchData: debounce(async function(searchTerm) {
-      if (searchTerm.trim() === "") return;
       this.isLoading = true;
-      const { data } = await axios.get(
-        `https://api.rawg.io/api/games?search=${searchTerm}&page_size=40`
-      );
-      this.items = data.results;
+      try {
+        const { data } = await axios.get(
+          `https://api.rawg.io/api/games?search=${searchTerm}&page_size=40`
+        );
+        this.items = data.results;
+      } catch (e) {
+        // TODO: handle errors
+        console.log(e);
+      }
       this.isLoading = false;
-    }, 500),
-    boop(ev) {
-      console.log("BOOPING", ev);
-      this.model = ev;
-      this.$emit("new", {
-        data: ev,
-        reset: () => {
-          this.model = null;
-        }
-      });
-    }
+    }, 500)
   },
   watch: {
     async search(val) {
-      if (this.model && val === this.model.name) {
-        return;
-      }
-      console.log("logging", val);
+      if (!val) return;
+      if ((this.value && val === this.value.name) || val.trim() === "") return;
+
       try {
         await this.fetchData(val);
       } catch (e) {

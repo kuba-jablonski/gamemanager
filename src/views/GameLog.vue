@@ -1,35 +1,56 @@
 <template>
   <layout-app>
     <template v-slot:search>
-      <game-search @new="openDialog($event)" />
+      <game-search v-model="game" />
     </template>
-    <v-dialog v-model="dialog" max-width="290" @click:outside="onCloseDialog">
-      <v-card v-if="game">
-        <v-card-title class="headline">{{ game.name }}</v-card-title>
+    <v-dialog v-model="dialog" max-width="700" @click:outside="onCloseDialog">
+      <v-card v-if="gameDetails">
+        <v-img
+          height="300"
+          class="align-end white--text"
+          :src="gameDetails.background_image"
+        >
+          <v-card-title
+            class="headline"
+            style="background-color: rgba(0,0,0,0.6)"
+            >{{ gameDetails.name }}
 
-        <v-card-text>
-          Let Google help apps determine location. This means sending anonymous
-          location data to Google, even when no apps are running.
+            <v-speed-dial v-model="fab" small right absolute direction="left">
+              <template v-slot:activator>
+                <v-btn @click="fab" small fab>
+                  <v-icon v-if="fab">mdi-close</v-icon>
+                  <v-icon v-else>mdi-plus</v-icon>
+                </v-btn>
+              </template>
+              <v-btn fab dark small color="blue-grey">
+                <v-icon>mdi-check</v-icon>
+              </v-btn>
+              <v-btn fab dark small color="amber">
+                <v-icon>mdi-star</v-icon>
+              </v-btn>
+              <v-btn fab dark small color="cyan">
+                <v-icon>mdi-view-list</v-icon>
+              </v-btn>
+              <v-btn fab dark small color="green">
+                <v-icon>mdi-play</v-icon>
+              </v-btn>
+            </v-speed-dial>
+          </v-card-title>
+        </v-img>
+        <v-card-subtitle class="mt-3"
+          >{{ gameDetails.developers[0].name }} &bull;
+          {{ gameDetails.released }}</v-card-subtitle
+        >
+        <v-card-text v-html="gameDetails.description" class="text--primary">
         </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-
-          <v-btn color="green darken-1" text @click="dialog = false">
-            Disagree
-          </v-btn>
-
-          <v-btn color="green darken-1" text @click="dialog = false">
-            Agree
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
     <v-container fluid>
       <v-row>
         <v-col>
           <v-card>
-            <v-toolbar color="cyan" dark>
+            <v-toolbar color="green" dark>
+              <v-icon class="mr-2">mdi-play</v-icon>
               <v-toolbar-title>Currently playing</v-toolbar-title>
             </v-toolbar>
 
@@ -62,6 +83,7 @@
         <v-col>
           <v-card>
             <v-toolbar color="cyan" dark>
+              <v-icon class="mr-2">mdi-view-list</v-icon>
               <v-toolbar-title>Backlog</v-toolbar-title>
             </v-toolbar>
 
@@ -93,7 +115,8 @@
         </v-col>
         <v-col>
           <v-card>
-            <v-toolbar color="cyan" dark>
+            <v-toolbar color="amber" dark>
+              <v-icon class="mr-2">mdi-star</v-icon>
               <v-toolbar-title>Wishlist</v-toolbar-title>
             </v-toolbar>
 
@@ -125,7 +148,8 @@
         </v-col>
         <v-col>
           <v-card>
-            <v-toolbar color="cyan" dark>
+            <v-toolbar color="blue-grey" dark>
+              <v-icon class="mr-2">mdi-check</v-icon>
               <v-toolbar-title>Completed</v-toolbar-title>
             </v-toolbar>
 
@@ -161,6 +185,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import LayoutApp from "@/components/LayoutApp";
 import GameSearch from "@/components/GameSearch";
 
@@ -171,17 +196,30 @@ export default {
   },
   data: () => ({
     dialog: false,
-    game: null
+    game: null,
+    gameDetails: null,
+    fab: false
   }),
   methods: {
-    openDialog({ data, reset }) {
-      console.log("IN APP", data);
-      this.game = data;
-      this.dialog = true;
-      this.resetFn = reset;
-    },
     onCloseDialog() {
-      this.resetFn();
+      this.dialog = false;
+      this.game = null;
+      this.gameDetails = null;
+    }
+  },
+  watch: {
+    async game(val) {
+      if (val) {
+        this.dialog = true;
+      } else {
+        this.dialog = false;
+        return;
+      }
+
+      const { data } = await axios.get(
+        `https://api.rawg.io/api/games/${val.id}`
+      );
+      this.gameDetails = data;
     }
   }
 };
