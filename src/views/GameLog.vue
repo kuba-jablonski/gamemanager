@@ -64,7 +64,11 @@
               <v-toolbar-title>Playing</v-toolbar-title>
             </v-toolbar>
             <v-list>
-              <v-list-item v-for="game in active" :key="game.id">
+              <v-list-item
+                v-for="game in active"
+                :key="game.id"
+                @click="openDetailsDialog(game.apiId)"
+              >
                 <v-list-item-content>
                   <v-list-item-title>{{ game.name }}</v-list-item-title>
                 </v-list-item-content>
@@ -79,7 +83,11 @@
               <v-toolbar-title>Backlog</v-toolbar-title>
             </v-toolbar>
             <v-list>
-              <v-list-item v-for="game in backlog" :key="game.id">
+              <v-list-item
+                v-for="game in backlog"
+                :key="game.id"
+                @click="openDetailsDialog(game.apiId)"
+              >
                 <v-list-item-content>
                   <v-list-item-title>{{ game.name }}</v-list-item-title>
                 </v-list-item-content>
@@ -124,6 +132,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 import LayoutApp from "@/components/LayoutApp";
 import GameSearch from "@/components/GameSearch";
 
@@ -139,6 +148,15 @@ export default {
     fab: false
   }),
   methods: {
+    async getGameDetails(id) {
+      // TODO: Add error handling
+      const { data } = await axios.get(`https://api.rawg.io/api/games/${id}`);
+      this.gameDetails = data;
+    },
+    openDetailsDialog(id) {
+      this.dialog = true;
+      this.getGameDetails(id);
+    },
     onCloseDialog() {
       this.dialog = false;
       this.game = null;
@@ -150,22 +168,10 @@ export default {
         apiId: this.gameDetails.id,
         name: this.gameDetails.name
       });
-      // this.$store.commit("addToLog", { type, game: this.gameDetails });
     }
   },
   computed: {
-    active() {
-      return this.$store.state.log.active;
-    },
-    backlog() {
-      return this.$store.state.log.backlog;
-    },
-    wishlist() {
-      return this.$store.state.log.wishlist;
-    },
-    completed() {
-      return this.$store.state.log.completed;
-    }
+    ...mapGetters(["active", "backlog", "wishlist", "completed"])
   },
   watch: {
     async game(val) {
@@ -176,11 +182,11 @@ export default {
         return;
       }
 
-      const { data } = await axios.get(
-        `https://api.rawg.io/api/games/${val.id}`
-      );
-      this.gameDetails = data;
+      await this.getGameDetails(val.id);
     }
+  },
+  mounted() {
+    this.$store.dispatch("getAllGames");
   }
 };
 </script>
