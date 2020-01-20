@@ -61,14 +61,15 @@
           <v-card>
             <v-toolbar color="green" dark>
               <v-icon class="mr-2">mdi-play</v-icon>
-              <v-toolbar-title>Currently playing</v-toolbar-title>
+              <v-toolbar-title>Playing</v-toolbar-title>
             </v-toolbar>
-
-            <v-list-item v-for="game in active" :key="game.id">
-              <v-list-item-content>
-                <v-list-item-title>{{ game.name }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+            <v-list>
+              <v-list-item v-for="game in active" :key="game.id">
+                <v-list-item-content>
+                  <v-list-item-title>{{ game.name }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
           </v-card>
         </v-col>
         <v-col>
@@ -77,12 +78,13 @@
               <v-icon class="mr-2">mdi-view-list</v-icon>
               <v-toolbar-title>Backlog</v-toolbar-title>
             </v-toolbar>
-
-            <v-list-item v-for="game in backlog" :key="game.id">
-              <v-list-item-content>
-                <v-list-item-title>{{ game.name }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+            <v-list>
+              <v-list-item v-for="game in backlog" :key="game.id">
+                <v-list-item-content>
+                  <v-list-item-title>{{ game.name }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
           </v-card>
         </v-col>
         <v-col>
@@ -91,12 +93,13 @@
               <v-icon class="mr-2">mdi-star</v-icon>
               <v-toolbar-title>Wishlist</v-toolbar-title>
             </v-toolbar>
-
-            <v-list-item v-for="game in wishlist" :key="game.id">
-              <v-list-item-content>
-                <v-list-item-title>{{ game.name }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+            <v-list>
+              <v-list-item v-for="game in wishlist" :key="game.id">
+                <v-list-item-content>
+                  <v-list-item-title>{{ game.name }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
           </v-card>
         </v-col>
         <v-col>
@@ -105,12 +108,13 @@
               <v-icon class="mr-2">mdi-check</v-icon>
               <v-toolbar-title>Completed</v-toolbar-title>
             </v-toolbar>
-
-            <v-list-item v-for="game in completed" :key="game.id">
-              <v-list-item-content>
-                <v-list-item-title>{{ game.name }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+            <v-list>
+              <v-list-item v-for="game in completed" :key="game.id">
+                <v-list-item-content>
+                  <v-list-item-title>{{ game.name }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
           </v-card>
         </v-col>
       </v-row>
@@ -141,7 +145,12 @@ export default {
       this.gameDetails = null;
     },
     addToLog(type) {
-      this.$store.commit("addToLog", { type, game: this.gameDetails });
+      this.$store.dispatch("createGame", {
+        logType: type,
+        apiId: this.gameDetails.id,
+        name: this.gameDetails.name
+      });
+      // this.$store.commit("addToLog", { type, game: this.gameDetails });
     }
   },
   computed: {
