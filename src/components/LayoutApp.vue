@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <div>
     <v-app-bar app>
       <div class="d-flex align-center">
         <v-img
@@ -38,7 +38,7 @@
     <v-content>
       <slot />
     </v-content>
-  </v-app>
+  </div>
 </template>
 
 <script>

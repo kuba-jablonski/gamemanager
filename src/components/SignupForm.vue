@@ -10,10 +10,30 @@
     >
     <v-card-text>
       <v-form @submit.prevent="onSubmit">
-        <v-text-field label="Username" required outlined></v-text-field>
-        <v-text-field label="Email" required outlined></v-text-field>
-        <v-text-field label="Password" required outlined></v-text-field>
-        <v-text-field label="Confirm Password" required outlined></v-text-field>
+        <v-text-field
+          v-model="username"
+          label="Username"
+          required
+          outlined
+        ></v-text-field>
+        <v-text-field
+          v-model="email"
+          label="Email"
+          required
+          outlined
+        ></v-text-field>
+        <v-text-field
+          v-model="password"
+          label="Password"
+          required
+          outlined
+        ></v-text-field>
+        <v-text-field
+          v-model="passwordConfirm"
+          label="Confirm Password"
+          required
+          outlined
+        ></v-text-field>
         <div class="d-flex justify-center"></div>
         <v-btn type="submit" depressed large>
           Submit
@@ -24,8 +44,6 @@
 </template>
 
 <script>
-import api from "@/api";
-
 export default {
   data() {
     return {
@@ -38,15 +56,15 @@ export default {
   methods: {
     async onSubmit() {
       try {
-        const res = await api.signup({
+        const res = await this.$http.post("/users/signup", {
           username: this.username,
           email: this.email,
           password: this.password,
           passwordConfirm: this.passwordConfirm
         });
-        console.log("yo", res);
+        console.log(res);
       } catch (err) {
-        console.log(err);
+        this.$store.commit("error/display", err.data.message);
       }
     }
   }

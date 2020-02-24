@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import error from "./modules/error";
 
 Vue.use(Vuex);
 
@@ -43,5 +44,6 @@ export default new Vuex.Store({
     backlog: state => state.games.filter(game => game.logType === "backlog"),
     wishlist: state => state.games.filter(game => game.logType === "wishlist"),
     completed: state => state.games.filter(game => game.logType === "completed")
-  }
+  },
+  modules: { error }
 });

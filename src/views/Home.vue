@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <div>
     <v-content>
       <v-container>
         <v-row class="mt-10">
@@ -27,7 +27,7 @@
         </v-row>
       </v-container>
     </v-content>
-  </v-app>
+  </div>
 </template>
 
 <script>

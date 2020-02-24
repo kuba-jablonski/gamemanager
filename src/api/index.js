@@ -20,11 +20,4 @@ api.interceptors.response.use(
   }
 );
 
-export default {
-  signup(userInfo) {
-    return api.post("/users/signup", userInfo);
-  },
-  getUsers() {
-    return api.get("/users");
-  }
-};
+export default api;
