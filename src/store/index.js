@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 import error from "./modules/error";
+import user from "./modules/user";
 
 Vue.use(Vuex);
 
@@ -45,5 +46,5 @@ export default new Vuex.Store({
     wishlist: state => state.games.filter(game => game.logType === "wishlist"),
     completed: state => state.games.filter(game => game.logType === "completed")
   },
-  modules: { error }
+  modules: { error, user }
 });
