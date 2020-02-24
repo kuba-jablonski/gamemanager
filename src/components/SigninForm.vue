@@ -9,11 +9,21 @@
       ><h2>Sign In</h2></v-card-title
     >
     <v-card-text>
-      <v-form>
-        <v-text-field label="Username" required outlined></v-text-field>
-        <v-text-field label="Password" required outlined></v-text-field>
+      <v-form @submit.prevent="onSubmit">
+        <v-text-field
+          v-model="email"
+          label="Email"
+          required
+          outlined
+        ></v-text-field>
+        <v-text-field
+          v-model="password"
+          label="Password"
+          required
+          outlined
+        ></v-text-field>
         <div class="d-flex justify-center"></div>
-        <v-btn depressed large>
+        <v-btn type="submit" depressed large>
           Submit
         </v-btn>
       </v-form>
@@ -22,7 +32,28 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      email: "",
+      password: ""
+    };
+  },
+  methods: {
+    async onSubmit() {
+      try {
+        const { token } = await this.$http.post("/users/login", {
+          email: this.email,
+          password: this.password
+        });
+        this.$store.commit("user/addToken", token);
+        this.$router.push("/app");
+      } catch (err) {
+        this.$store.commit("error/display", err.data.message);
+      }
+    }
+  }
+};
 </script>
 
 <style></style>
