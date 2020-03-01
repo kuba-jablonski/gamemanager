@@ -42,11 +42,12 @@ export default {
   methods: {
     async onSubmit() {
       try {
-        const { token } = await this.$http.post("/users/login", {
+        const { token, user } = await this.$http.post("/users/login", {
           email: this.email,
           password: this.password
         });
         this.$store.commit("user/addToken", token);
+        this.$store.commit("games/load", user.games);
         this.$router.push("/app");
       } catch (err) {
         this.$store.commit("error/display", err.data.message);

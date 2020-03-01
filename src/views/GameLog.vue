@@ -171,7 +171,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["active", "backlog", "wishlist", "completed"])
+    ...mapGetters("games", ["active", "backlog", "wishlist", "completed"])
   },
   watch: {
     async game(val) {

@@ -63,6 +63,7 @@ export default {
           passwordConfirm: this.passwordConfirm
         });
         this.$store.commit("user/addToken", res.token);
+        this.$store.commit("games/load", res.user.games);
         this.$router.push("/app");
       } catch (err) {
         this.$store.commit("error/display", err.data.message);
