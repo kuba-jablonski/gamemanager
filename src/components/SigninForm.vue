@@ -41,18 +41,10 @@ export default {
   },
   methods: {
     async onSubmit() {
-      try {
-        const { token, user } = await this.$http.post("/users/login", {
-          email: this.email,
-          password: this.password
-        });
-        console.log(user);
-        this.$store.commit("user/addToken", token);
-        this.$store.commit("games/load", user.games);
-        this.$router.push("/app");
-      } catch (err) {
-        this.$store.commit("error/display", err.data.message);
-      }
+      await this.$store.dispatch("user/logIn", {
+        email: this.email,
+        password: this.password
+      });
     }
   }
 };

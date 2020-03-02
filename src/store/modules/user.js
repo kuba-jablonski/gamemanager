@@ -29,7 +29,20 @@ export default {
       } catch (err) {
         commit("error/display", err.data.message, { root: true });
       }
+    },
+    async logIn({ commit }, payload) {
+      try {
+        const {
+          token,
+          user: { games, ...user }
+        } = await api.post("/users/login", payload);
+        commit("addToken", token);
+        commit("setUser", user);
+        commit("games/load", games, { root: true });
+        router.push("/app");
+      } catch (err) {
+        commit("error/display", err.data.message, { root: true });
+      }
     }
-    // logIn({ commit }) {}
   }
 };
