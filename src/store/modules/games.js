@@ -1,4 +1,4 @@
-// import Vue from "vue";
+import api from "@/api";
 
 export default {
   namespaced: true,
@@ -8,16 +8,24 @@ export default {
   mutations: {
     load(state, games) {
       state.list = games;
+    },
+    add(state, game) {
+      state.list.push(game);
     }
-    // add(state, game) {}
   },
   actions: {
-    // async add({ commit, rootState }, payload) {
-    //   const game = await Vue.$http.post("/games", {
-    //     ...payload,
-    //     user: rootState.user.id
-    //   });
-    // }
+    async add({ commit, rootState }, payload) {
+      console.log(rootState);
+      try {
+        const { game } = await api.post("/games", {
+          ...payload,
+          user: rootState.user.user._id
+        });
+        commit("add", game);
+      } catch (err) {
+        commit("error/display", err.data.message, { root: true });
+      }
+    }
   },
   getters: {
     active: state => state.list.filter(game => game.status === "active"),

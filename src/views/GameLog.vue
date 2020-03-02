@@ -162,8 +162,9 @@ export default {
       this.game = null;
       this.gameDetails = null;
     },
-    addToLog(type) {
-      this.$store.dispatch("games/add", {
+    async addToLog(type) {
+      this.dialog = false;
+      await this.$store.dispatch("games/add", {
         status: type,
         apiId: this.gameDetails.id,
         title: this.gameDetails.name
