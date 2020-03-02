@@ -3,13 +3,11 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
-import api from "./api";
 
 Vue.config.productionTip = false;
 Vue.config.errorHandler = function(err, vm, info) {
   console.log("[Global Error Handler]: Error in " + info + ": " + err);
 };
-Vue.prototype.$http = api;
 
 new Vue({
   router,

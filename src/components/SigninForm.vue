@@ -46,6 +46,7 @@ export default {
           email: this.email,
           password: this.password
         });
+        console.log(user);
         this.$store.commit("user/addToken", token);
         this.$store.commit("games/load", user.games);
         this.$router.push("/app");

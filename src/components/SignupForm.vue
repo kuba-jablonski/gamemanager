@@ -55,19 +55,12 @@ export default {
   },
   methods: {
     async onSubmit() {
-      try {
-        const res = await this.$http.post("/users/signup", {
-          username: this.username,
-          email: this.email,
-          password: this.password,
-          passwordConfirm: this.passwordConfirm
-        });
-        this.$store.commit("user/addToken", res.token);
-        this.$store.commit("games/load", res.user.games);
-        this.$router.push("/app");
-      } catch (err) {
-        this.$store.commit("error/display", err.data.message);
-      }
+      await this.$store.dispatch("user/signUp", {
+        username: this.username,
+        email: this.email,
+        password: this.password,
+        passwordConfirm: this.passwordConfirm
+      });
     }
   }
 };

@@ -70,7 +70,7 @@
                 @click="openDetailsDialog(game.apiId)"
               >
                 <v-list-item-content>
-                  <v-list-item-title>{{ game.name }}</v-list-item-title>
+                  <v-list-item-title>{{ game.title }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -89,7 +89,7 @@
                 @click="openDetailsDialog(game.apiId)"
               >
                 <v-list-item-content>
-                  <v-list-item-title>{{ game.name }}</v-list-item-title>
+                  <v-list-item-title>{{ game.title }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -104,7 +104,7 @@
             <v-list>
               <v-list-item v-for="game in wishlist" :key="game.id">
                 <v-list-item-content>
-                  <v-list-item-title>{{ game.name }}</v-list-item-title>
+                  <v-list-item-title>{{ game.title }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -119,7 +119,7 @@
             <v-list>
               <v-list-item v-for="game in completed" :key="game.id">
                 <v-list-item-content>
-                  <v-list-item-title>{{ game.name }}</v-list-item-title>
+                  <v-list-item-title>{{ game.title }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -163,10 +163,10 @@ export default {
       this.gameDetails = null;
     },
     addToLog(type) {
-      this.$store.dispatch("createGame", {
-        logType: type,
+      this.$store.dispatch("games/add", {
+        status: type,
         apiId: this.gameDetails.id,
-        name: this.gameDetails.name
+        title: this.gameDetails.name
       });
     }
   },
