@@ -17,7 +17,14 @@
             style="background-color: rgba(0,0,0,0.6)"
             >{{ gameDetails.name }}
 
-            <v-speed-dial v-model="fab" small right absolute direction="left">
+            <v-speed-dial
+              v-if="dialogType === 'search'"
+              v-model="fab"
+              small
+              right
+              absolute
+              direction="left"
+            >
               <template v-slot:activator>
                 <v-btn small fab>
                   <v-icon v-if="fab">mdi-close</v-icon>
@@ -72,6 +79,12 @@
                 <v-list-item-content>
                   <v-list-item-title>{{ game.title }}</v-list-item-title>
                 </v-list-item-content>
+
+                <v-list-item-action>
+                  <v-btn icon>
+                    <v-icon color="grey lighten-1">mdi-information</v-icon>
+                  </v-btn>
+                </v-list-item-action>
               </v-list-item>
             </v-list>
           </v-card>
@@ -143,6 +156,7 @@ export default {
   },
   data: () => ({
     dialog: false,
+    dialogType: null,
     game: null,
     gameDetails: null,
     fab: false
@@ -154,6 +168,7 @@ export default {
       this.gameDetails = data;
     },
     openDetailsDialog(id) {
+      this.dialogType = "update";
       this.dialog = true;
       this.getGameDetails(id);
     },
@@ -177,6 +192,7 @@ export default {
   watch: {
     async game(val) {
       if (val) {
+        this.dialogType = "search";
         this.dialog = true;
       } else {
         this.dialog = false;
