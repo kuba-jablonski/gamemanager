@@ -65,78 +65,36 @@
     <v-container fluid>
       <v-row>
         <v-col>
-          <v-card>
-            <v-toolbar color="green" dark>
-              <v-icon class="mr-2">mdi-play</v-icon>
-              <v-toolbar-title>Playing</v-toolbar-title>
-            </v-toolbar>
-            <v-list>
-              <v-list-item
-                v-for="game in active"
-                :key="game.id"
-                @click="openDetailsDialog(game.apiId)"
-              >
-                <v-list-item-content>
-                  <v-list-item-title>{{ game.title }}</v-list-item-title>
-                </v-list-item-content>
-
-                <v-list-item-action>
-                  <v-btn icon>
-                    <v-icon color="grey lighten-1">mdi-information</v-icon>
-                  </v-btn>
-                </v-list-item-action>
-              </v-list-item>
-            </v-list>
-          </v-card>
+          <log-card
+            color="green"
+            @onGameClick="openDetailsDialog($event)"
+            :games="active"
+            title="Playing"
+          />
         </v-col>
         <v-col>
-          <v-card>
-            <v-toolbar color="cyan" dark>
-              <v-icon class="mr-2">mdi-view-list</v-icon>
-              <v-toolbar-title>Backlog</v-toolbar-title>
-            </v-toolbar>
-            <v-list>
-              <v-list-item
-                v-for="game in backlog"
-                :key="game.id"
-                @click="openDetailsDialog(game.apiId)"
-              >
-                <v-list-item-content>
-                  <v-list-item-title>{{ game.title }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-card>
+          <log-card
+            color="cyan"
+            @onGameClick="openDetailsDialog($event)"
+            :games="backlog"
+            title="Backlog"
+          />
         </v-col>
         <v-col>
-          <v-card>
-            <v-toolbar color="amber" dark>
-              <v-icon class="mr-2">mdi-star</v-icon>
-              <v-toolbar-title>Wishlist</v-toolbar-title>
-            </v-toolbar>
-            <v-list>
-              <v-list-item v-for="game in wishlist" :key="game.id">
-                <v-list-item-content>
-                  <v-list-item-title>{{ game.title }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-card>
+          <log-card
+            color="amber"
+            @onGameClick="openDetailsDialog($event)"
+            :games="wishlist"
+            title="Wishlist"
+          />
         </v-col>
         <v-col>
-          <v-card>
-            <v-toolbar color="blue-grey" dark>
-              <v-icon class="mr-2">mdi-check</v-icon>
-              <v-toolbar-title>Completed</v-toolbar-title>
-            </v-toolbar>
-            <v-list>
-              <v-list-item v-for="game in completed" :key="game.id">
-                <v-list-item-content>
-                  <v-list-item-title>{{ game.title }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-card>
+          <log-card
+            color="blue-grey"
+            @onGameClick="openDetailsDialog($event)"
+            :games="completed"
+            title="Completed"
+          />
         </v-col>
       </v-row>
     </v-container>
@@ -148,11 +106,13 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 import LayoutApp from "@/components/LayoutApp";
 import GameSearch from "@/components/GameSearch";
+import LogCard from "@/components/LogCard";
 
 export default {
   components: {
     LayoutApp,
-    GameSearch
+    GameSearch,
+    LogCard
   },
   data: () => ({
     dialog: false,
