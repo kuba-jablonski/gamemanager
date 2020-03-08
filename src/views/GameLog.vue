@@ -64,36 +64,14 @@
 
     <v-container fluid>
       <v-row>
-        <v-col>
+        <v-col v-for="log in logs" :key="log.type">
           <log-card
-            color="green"
             @onGameClick="openDetailsDialog($event)"
-            :games="active"
-            title="Playing"
-          />
-        </v-col>
-        <v-col>
-          <log-card
-            color="cyan"
-            @onGameClick="openDetailsDialog($event)"
-            :games="backlog"
-            title="Backlog"
-          />
-        </v-col>
-        <v-col>
-          <log-card
-            color="amber"
-            @onGameClick="openDetailsDialog($event)"
-            :games="wishlist"
-            title="Wishlist"
-          />
-        </v-col>
-        <v-col>
-          <log-card
-            color="blue-grey"
-            @onGameClick="openDetailsDialog($event)"
-            :games="completed"
-            title="Completed"
+            @onUpdateItemClick="handleGameUpdate($event)"
+            @onDeleteItemClick="handleGameDelete($event)"
+            :games="_self[log.type]"
+            :title="log.title"
+            :color="log.color"
           />
         </v-col>
       </v-row>
@@ -119,7 +97,29 @@ export default {
     dialogType: null,
     game: null,
     gameDetails: null,
-    fab: false
+    fab: false,
+    logs: [
+      {
+        title: "Playing",
+        type: "active",
+        color: "green"
+      },
+      {
+        title: "Backlog",
+        type: "backlog",
+        color: "cyan"
+      },
+      {
+        title: "Wishlist",
+        type: "wishlist",
+        color: "amber"
+      },
+      {
+        title: "Completed",
+        type: "completed",
+        color: "blue-gray"
+      }
+    ]
   }),
   methods: {
     async getGameDetails(id) {
@@ -144,6 +144,15 @@ export default {
         apiId: this.gameDetails.id,
         title: this.gameDetails.name
       });
+    },
+    async handleGameUpdate({ gameId, updatedStatus }) {
+      await this.$store.dispatch("games/updateOne", {
+        gameId,
+        updatedStatus
+      });
+    },
+    async handleGameDelete(gameId) {
+      await this.$store.dispatch("games/deleteOne", gameId);
     }
   },
   computed: {

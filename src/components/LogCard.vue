@@ -30,25 +30,22 @@
               </v-btn>
             </template>
             <v-list>
-              <v-list-item>
+              <v-list-item
+                v-for="(value, key) in actionList"
+                :key="value"
+                @click="
+                  $emit('onUpdateItemClick', {
+                    gameId: game._id,
+                    updatedStatus: value
+                  })
+                "
+              >
                 <v-list-item-title class="d-flex align-center space-between">
                   <v-icon class="mr-3">mdi-arrow-right</v-icon
-                  >Backlog</v-list-item-title
+                  >{{ key }}</v-list-item-title
                 >
               </v-list-item>
-              <v-list-item>
-                <v-list-item-title class="d-flex align-center space-between">
-                  <v-icon class="mr-3">mdi-arrow-right</v-icon
-                  >Wishlist</v-list-item-title
-                >
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-title class="d-flex align-center space-between">
-                  <v-icon class="mr-3">mdi-arrow-right</v-icon
-                  >Completed</v-list-item-title
-                >
-              </v-list-item>
-              <v-list-item>
+              <v-list-item @click="$emit('onDeleteItemClick', game._id)">
                 <v-list-item-title class="d-flex align-center space-between">
                   <v-icon class="mr-3">mdi-trash-can-outline</v-icon
                   >Delete</v-list-item-title
@@ -64,7 +61,20 @@
 
 <script>
 export default {
-  props: ["title", "games", "color"]
+  props: ["title", "games", "color"],
+  computed: {
+    actionList() {
+      const map = {
+        Playing: "active",
+        Backlog: "backlog",
+        Wishlist: "wishlist",
+        Completed: "completed"
+      };
+
+      delete map[this.title];
+      return map;
+    }
+  }
 };
 </script>
 
