@@ -16,7 +16,7 @@ api.interceptors.request.use(config => {
 api.interceptors.response.use(
   response => response.data,
   error => {
-    if (error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
       store.commit("user/setUser", null);
       localStorage.removeItem("token");
       if (window.location.pathname !== "/") {
