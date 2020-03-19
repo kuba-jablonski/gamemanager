@@ -3,31 +3,50 @@
     <div class="content">
       <div class="login white">
         <v-container fill-height class="d-flex flex-column justify-center">
-          <div class="d-flex">
-            <v-img src="@/assets/logo.png"></v-img>
-            <h2>GameManager</h2>
-          </div>
-          <h1>Welcome Back</h1>
-          <v-form class="form mt-8" @submit.prevent="onSubmit">
-            <v-text-field
-              v-model="email"
-              label="Email"
-              required
-              dense
-              outlined
-            ></v-text-field>
-            <v-text-field
-              v-model="password"
-              label="Password"
-              required
-              dense
-              outlined
-            ></v-text-field>
-            <div class="d-flex justify-center"></div>
-            <v-btn type="submit" depressed large>
-              Submit
-            </v-btn>
-          </v-form>
+          <v-fade-transition mode="out-in">
+            <div v-if="signin" key="signin" class="form-wrapper">
+              <div class="d-flex align-end justify-center mb-10">
+                <img class="logo" src="@/assets/logo.png" />
+                <h3 class="font-weight-black">GameManager</h3>
+              </div>
+              <h1 class="text-center mb-3">Welcome Back</h1>
+              <v-btn block depressed large>Log in with Google</v-btn>
+              <div
+                class="grey--text text--lighten-1 text-uppercase decorated mt-6 mb-3"
+              >
+                <span>or log in with email</span>
+              </div>
+              <signin-form />
+              <div class="grey--text text-center mt-3">
+                Don't have an account?
+                <v-btn
+                  @click="signin = false"
+                  text
+                  class="text-none"
+                  color="secondary"
+                  >Sign up</v-btn
+                >
+              </div>
+            </div>
+            <div v-else key="signup" class="form-wrapper">
+              <div class="d-flex align-end justify-center mb-10">
+                <img class="logo" src="@/assets/logo.png" />
+                <h3 class="font-weight-black">GameManager</h3>
+              </div>
+              <h1 class="text-center mb-3">Create Account</h1>
+              <signup-form />
+              <div class="grey--text text-center mt-3">
+                Already have an account?
+                <v-btn
+                  @click="signin = true"
+                  text
+                  class="text-none"
+                  color="secondary"
+                  >Log in</v-btn
+                >
+              </div>
+            </div>
+          </v-fade-transition>
         </v-container>
       </div>
       <div class="bullshit blue lighten-5">
@@ -40,64 +59,26 @@
               </span>
               <span>Created by Jakub Jabłoński.</span>
             </p>
-
-            <v-btn outlined>Learn more</v-btn>
+            <v-btn outlined color="secondary">Learn more</v-btn>
           </div>
         </v-container>
 
         <game-svg class="icon" />
       </div>
     </div>
-    <!-- <v-container fluid>
-      <v-row class="mt-10">
-        <v-col class="dark" :cols="6">
-          <game-svg class="icon" />
-        </v-col>
-        <v-col :cols="5" offset="1">
-          <h2 class=" headline	">Sign in to GameManager</h2>
-          <p class="font-weight-light subtitle-2">
-            Enter details below
-          </p>
-          <v-form class="mt-8" @submit.prevent="onSubmit">
-            <v-text-field
-              v-model="email"
-              label="Email"
-              required
-              dense
-              outlined
-            ></v-text-field>
-            <v-text-field
-              v-model="password"
-              label="Password"
-              required
-              dense
-              outlined
-            ></v-text-field>
-            <div class="d-flex justify-center"></div>
-            <v-btn type="submit" depressed large>
-              Submit
-            </v-btn>
-          </v-form>
-          <v-fade-transition mode="out-in">
-              <signin-form v-if="signin" @onFormChange="signin = false" />
-              <signup-form v-else @onFormChange="signin = true" />
-            </v-fade-transition>
-        </v-col>
-      </v-row>
-    </v-container> -->
   </div>
 </template>
 
 <script>
-// import SigninForm from "@/components/SigninForm";
-// import SignupForm from "@/components/SignupForm";
+import SigninForm from "@/components/SigninForm";
+import SignupForm from "@/components/SignupForm";
 import GameSvg from "@/assets/game.svg";
 
 export default {
   name: "home",
   components: {
-    // SigninForm,
-    // SignupForm,
+    SigninForm,
+    SignupForm,
     GameSvg
   },
   data() {
@@ -119,13 +100,13 @@ export default {
   grid-template-columns: 45% 55%;
 }
 
-.form {
+.form-wrapper {
   width: 100%;
   max-width: 400px;
 }
 
-.logo-svg {
-  width: 30px;
+.logo {
+  width: 35px;
 }
 
 .login {
@@ -142,5 +123,30 @@ export default {
   position: absolute;
   bottom: 30px;
   left: 30px;
+}
+
+/* Lines */
+.decorated {
+  overflow: hidden;
+  text-align: center;
+}
+.decorated > span {
+  position: relative;
+  display: inline-block;
+}
+.decorated > span:before,
+.decorated > span:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  border-bottom: 1px solid;
+  width: 100%;
+  margin: 0 20px;
+}
+.decorated > span:before {
+  right: 100%;
+}
+.decorated > span:after {
+  left: 100%;
 }
 </style>

@@ -1,34 +1,12 @@
 <template>
-  <v-card>
-    <v-card-text class="font-weight-bold ">
-      <v-btn @click="$emit('onFormChange')" small text>
-        create a new account
-      </v-btn>
-    </v-card-text>
-    <v-card-title class="mb-6 d-flex justify-center"
-      ><h2>Sign In</h2></v-card-title
-    >
-    <v-card-text>
-      <v-form @submit.prevent="onSubmit">
-        <v-text-field
-          v-model="email"
-          label="Email"
-          required
-          outlined
-        ></v-text-field>
-        <v-text-field
-          v-model="password"
-          label="Password"
-          required
-          outlined
-        ></v-text-field>
-        <div class="d-flex justify-center"></div>
-        <v-btn type="submit" depressed large>
-          Submit
-        </v-btn>
-      </v-form>
-    </v-card-text>
-  </v-card>
+  <v-form @submit.prevent="onSubmit">
+    <v-text-field v-model="email" label="Email" required></v-text-field>
+    <v-text-field v-model="password" label="Password" required></v-text-field>
+    <div class="d-flex justify-center"></div>
+    <v-btn class="mt-2" color="primary" type="submit" depressed block large>
+      Submit
+    </v-btn>
+  </v-form>
 </template>
 
 <script>
