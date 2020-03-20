@@ -40,6 +40,12 @@ export default {
         commit("error/display", err.data.message, { root: true });
       }
     },
+    signOut({ commit }) {
+      localStorage.removeItem("token");
+      commit("setUser", null);
+      commit("games/load", [], { root: true });
+      router.replace("/");
+    },
     async getMe({ commit }) {
       try {
         const {
@@ -51,10 +57,6 @@ export default {
         commit("error/display", err.data.message, { root: true });
       }
     }
-    // logOut({ commit }) {
-    //   localStorage.removeItem("token");
-    //   commit("setUser", null);
-    // }
   },
   getters: {
     isAuthed: state => !!state.user

@@ -12,13 +12,8 @@
       <v-spacer></v-spacer>
       <slot name="search" />
       <v-spacer></v-spacer>
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+      <v-btn @click="handleSignout" text>
+        Sign out
       </v-btn>
     </v-app-bar>
 
@@ -29,7 +24,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    handleSignout() {
+      this.$store.dispatch("user/signOut");
+    }
+  }
+};
 </script>
 
 <style></style>
