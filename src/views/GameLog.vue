@@ -64,7 +64,7 @@
 
     <v-container fluid>
       <v-row>
-        <v-col v-for="log in logs" :key="log.type">
+        <v-col cols="12" md="6" lg="3" v-for="log in logs" :key="log.type">
           <log-card
             @onGameClick="openDetailsDialog($event)"
             @onUpdateItemClick="handleGameUpdate($event)"
