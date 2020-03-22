@@ -2,9 +2,19 @@
   <v-form @submit.prevent="onSubmit">
     <v-text-field v-model="username" label="Username" required></v-text-field>
     <v-text-field v-model="email" label="Email" required></v-text-field>
-    <v-text-field v-model="password" label="Password" required></v-text-field>
+    <v-text-field
+      v-model="password"
+      :type="showPassword ? 'text' : 'password'"
+      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+      @click:append="showPassword = !showPassword"
+      label="Password"
+      required
+    ></v-text-field>
     <v-text-field
       v-model="passwordConfirm"
+      :type="showConfirmPassword ? 'text' : 'password'"
+      :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
+      @click:append="showConfirmPassword = !showConfirmPassword"
       label="Confirm Password"
       required
     ></v-text-field>
@@ -22,7 +32,9 @@ export default {
       username: "",
       email: "",
       password: "",
-      passwordConfirm: ""
+      passwordConfirm: "",
+      showPassword: false,
+      showConfirmPassword: false
     };
   },
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="content">
-      <div class="login white ">
+      <div class="login white">
         <v-container fill-height class="d-flex flex-column">
           <v-fade-transition mode="out-in">
             <div v-if="signin" key="signin" class="form-wrapper mt-10">
@@ -62,7 +62,6 @@
             <v-btn outlined color="secondary">Learn more</v-btn>
           </div>
         </v-container>
-
         <game-svg class="icon" />
       </div>
     </div>
@@ -131,7 +130,6 @@ export default {
   left: 30px;
 }
 
-/* Lines */
 .decorated {
   overflow: hidden;
   text-align: center;
