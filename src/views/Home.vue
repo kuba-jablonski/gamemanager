@@ -88,7 +88,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .home {
   height: 100%;
 }
@@ -97,14 +97,17 @@ export default {
   height: 100%;
   display: grid;
   grid-template-columns: 46% 54%;
-}
 
-@media (max-width: 1000px) {
-  .content {
+  @media (max-width: 1000px) {
     grid-template-columns: 1fr;
   }
+}
 
-  .info {
+.info {
+  position: relative;
+  padding-right: 30px;
+
+  @media (max-width: 1000px) {
     display: none;
   }
 }
@@ -118,11 +121,6 @@ export default {
   width: 35px;
 }
 
-.info {
-  position: relative;
-  padding-right: 30px;
-}
-
 .icon {
   width: 75%;
   position: absolute;
@@ -133,24 +131,28 @@ export default {
 .decorated {
   overflow: hidden;
   text-align: center;
-}
-.decorated > span {
-  position: relative;
-  display: inline-block;
-}
-.decorated > span:before,
-.decorated > span:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  border-bottom: 1px solid;
-  width: 100%;
-  margin: 0 20px;
-}
-.decorated > span:before {
-  right: 100%;
-}
-.decorated > span:after {
-  left: 100%;
+
+  & > span {
+    position: relative;
+    display: inline-block;
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      border-bottom: 1px solid;
+      width: 100%;
+      margin: 0 20px;
+    }
+
+    &:before {
+      right: 100%;
+    }
+
+    &:after {
+      left: 100%;
+    }
+  }
 }
 </style>
