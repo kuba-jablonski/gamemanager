@@ -6,6 +6,7 @@
       :error-messages="usernameErrors"
       @blur="$v.username.$touch()"
       required
+      autocomplete="off"
     ></v-text-field>
     <v-text-field
       v-model="email"
@@ -13,6 +14,7 @@
       :error-messages="emailErrors"
       @blur="$v.email.$touch()"
       required
+      autocomplete="off"
     ></v-text-field>
     <v-text-field
       v-model="password"
@@ -23,6 +25,7 @@
       :error-messages="passwordErrors"
       @blur="$v.password.$touch()"
       required
+      autocomplete="off"
     ></v-text-field>
     <v-text-field
       v-model="passwordConfirm"
@@ -33,6 +36,7 @@
       :error-messages="passwordConfirmErrors"
       @blur="$v.passwordConfirm.$touch()"
       required
+      autocomplete="off"
     ></v-text-field>
     <div class="d-flex justify-center"></div>
     <v-btn

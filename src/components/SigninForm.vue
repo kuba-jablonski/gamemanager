@@ -1,6 +1,11 @@
 <template>
   <v-form @submit.prevent="onSubmit">
-    <v-text-field v-model="email" label="Email" required></v-text-field>
+    <v-text-field
+      v-model="email"
+      label="Email"
+      autocomplete="off"
+      required
+    ></v-text-field>
     <v-text-field
       v-model="password"
       :type="showPassword ? 'text' : 'password'"
@@ -8,6 +13,7 @@
       @click:append="showPassword = !showPassword"
       label="Password"
       required
+      autocomplete="off"
     ></v-text-field>
     <div class="d-flex justify-center"></div>
     <v-btn
