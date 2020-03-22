@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-toolbar :color="color" dark>
-      <v-icon class="mr-2">mdi-play</v-icon>
+      <v-icon class="mr-2">{{ `mdi-${icon}` }}</v-icon>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
     </v-toolbar>
     <v-list>
@@ -61,7 +61,7 @@
 
 <script>
 export default {
-  props: ["title", "games", "color"],
+  props: ["title", "games", "color", "icon"],
   computed: {
     actionList() {
       const map = {

@@ -72,6 +72,7 @@
             :games="_self[log.type]"
             :title="log.title"
             :color="log.color"
+            :icon="log.icon"
           />
         </v-col>
       </v-row>
@@ -102,22 +103,26 @@ export default {
       {
         title: "Playing",
         type: "active",
-        color: "green"
+        color: "green",
+        icon: "play"
       },
       {
         title: "Backlog",
         type: "backlog",
-        color: "cyan"
+        color: "cyan",
+        icon: "view-list"
       },
       {
         title: "Wishlist",
         type: "wishlist",
-        color: "amber"
+        color: "amber",
+        icon: "star"
       },
       {
         title: "Completed",
         type: "completed",
-        color: "blue-gray"
+        color: "blue-gray",
+        icon: "check-bold"
       }
     ]
   }),
