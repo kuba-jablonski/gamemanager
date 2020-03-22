@@ -99,9 +99,9 @@ export default {
   },
   methods: {
     async onSubmit() {
-      const valid = this.$v.$touch();
+      this.$v.$touch();
 
-      if (valid) {
+      if (!this.$v.$invalid) {
         await this.$store.dispatch("user/signUp", {
           username: this.username,
           email: this.email,
