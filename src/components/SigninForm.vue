@@ -10,7 +10,15 @@
       required
     ></v-text-field>
     <div class="d-flex justify-center"></div>
-    <v-btn class="mt-2" color="primary" type="submit" depressed block large>
+    <v-btn
+      class="mt-2"
+      color="primary"
+      type="submit"
+      :loading="isLoading"
+      depressed
+      block
+      large
+    >
       Submit
     </v-btn>
   </v-form>
@@ -22,15 +30,20 @@ export default {
     return {
       email: "",
       password: "",
-      showPassword: false
+      showPassword: false,
+      isLoading: false
     };
   },
   methods: {
     async onSubmit() {
+      this.isLoading = true;
+
       await this.$store.dispatch("user/logIn", {
         email: this.email,
         password: this.password
       });
+
+      this.isLoading = false;
     }
   }
 };

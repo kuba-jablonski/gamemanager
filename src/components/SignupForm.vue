@@ -35,7 +35,15 @@
       required
     ></v-text-field>
     <div class="d-flex justify-center"></div>
-    <v-btn class="mt-2" color="primary" type="submit" depressed block large>
+    <v-btn
+      class="mt-2"
+      color="primary"
+      type="submit"
+      :loading="isLoading"
+      depressed
+      block
+      large
+    >
       Submit
     </v-btn>
   </v-form>
@@ -54,7 +62,8 @@ export default {
       password: "",
       passwordConfirm: "",
       showPassword: false,
-      showConfirmPassword: false
+      showConfirmPassword: false,
+      isLoading: false
     };
   },
   validations: {
@@ -102,12 +111,16 @@ export default {
       this.$v.$touch();
 
       if (!this.$v.$invalid) {
+        this.isLoading = true;
+
         await this.$store.dispatch("user/signUp", {
           username: this.username,
           email: this.email,
           password: this.password,
           passwordConfirm: this.passwordConfirm
         });
+
+        this.isLoading = false;
       }
     }
   }
