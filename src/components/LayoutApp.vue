@@ -12,6 +12,9 @@
       <v-spacer></v-spacer>
       <slot name="search" />
       <v-spacer></v-spacer>
+      <v-btn to="/user" text>
+        Profile
+      </v-btn>
       <v-btn @click="handleSignout" text>
         Sign out
       </v-btn>

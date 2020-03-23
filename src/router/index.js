@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import GameLog from "../views/GameLog.vue";
+import Profile from "../views/Profile.vue";
 import store from "@/store";
 
 Vue.use(VueRouter);
@@ -16,15 +17,15 @@ const routes = [
     path: "/app",
     name: "app",
     component: GameLog,
-    beforeEnter: (to, from, next) => {
-      if (store.getters["user/isAuthed"]) {
-        next();
-      } else {
-        console.log("NOT AUTHED");
-        next("/");
-      }
-      // return store.getters("user/isAuthed") ? next() : next("/");
-    }
+    beforeEnter: (to, from, next) =>
+      store.getters["user/isAuthed"] ? next() : next("/")
+  },
+  {
+    path: "/user",
+    name: "profile",
+    component: Profile,
+    beforeEnter: (to, from, next) =>
+      store.getters["user/isAuthed"] ? next() : next("/")
   },
   {
     path: "/about",
