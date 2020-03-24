@@ -56,6 +56,14 @@ export default {
       } catch (err) {
         commit("error/display", err.data.message, { root: true });
       }
+    },
+    async updateMe({ commit }, payload) {
+      try {
+        const { user } = await api.patch("/users/me", payload);
+        commit("setUser", user);
+      } catch (err) {
+        commit("error/display", err.data.message, { root: true });
+      }
     }
   },
   getters: {

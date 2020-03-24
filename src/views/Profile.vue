@@ -21,7 +21,13 @@
               required
               autocomplete="off"
             ></v-text-field>
-            <v-btn color="primary" depressed type="submit">Save settings</v-btn>
+            <v-btn
+              color="primary"
+              :loading="updatingSettings"
+              depressed
+              type="submit"
+              >Save settings</v-btn
+            >
           </v-form>
         </v-container>
       </v-sheet>
@@ -75,7 +81,9 @@ export default {
       email: this.$store.state.user.user.email,
       currentPassword: "",
       newPassword: "",
-      passwordConfirm: ""
+      passwordConfirm: "",
+      updatingSettings: false,
+      changingPassword: false
     };
   },
   validations: {
@@ -119,12 +127,17 @@ export default {
     }
   },
   methods: {
-    onUpdateSettings() {
+    async onUpdateSettings() {
       this.$v.username.$touch();
       this.$v.email.$touch();
       const isValid = !this.$v.username.$invalid && !this.$v.email.$invalid;
       if (isValid) {
-        console.log("OFF WE GO!");
+        this.updatingSettings = true;
+        await this.$store.dispatch("user/updateMe", {
+          username: this.username,
+          email: this.email
+        });
+        this.updatingSettings = false;
       }
     },
     onUpdatePassword() {
