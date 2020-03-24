@@ -57,7 +57,13 @@
               required
               autocomplete="off"
             ></v-text-field>
-            <v-btn color="primary" depressed type="submit">Save password</v-btn>
+            <v-btn
+              color="primary"
+              @click="onChangePassword"
+              depressed
+              type="submit"
+              >Save password</v-btn
+            >
           </v-form>
         </v-container>
       </v-sheet>
@@ -140,13 +146,19 @@ export default {
         this.updatingSettings = false;
       }
     },
-    onUpdatePassword() {
+    async onChangePassword() {
       this.$v.newPassword.$touch();
       this.$v.passwordConfirm.$touch();
       const isValid =
         !this.$v.newPassword.$invalid && !this.$v.passwordConfirm.$invalid;
       if (isValid) {
-        console.log("Password is flying!!!");
+        this.changingPassword = true;
+        await this.$store.dispatch("user/changePassword", {
+          passwordCurrent: this.currentPassword,
+          password: this.newPassword,
+          passwordConfirm: this.passwordConfirm
+        });
+        this.changingPassword = false;
       }
     }
   }

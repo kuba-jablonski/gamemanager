@@ -64,6 +64,14 @@ export default {
       } catch (err) {
         commit("error/display", err.data.message, { root: true });
       }
+    },
+    async changePassword({ commit }, payload) {
+      try {
+        const { token } = await api.patch("/users/updateMyPassword", payload);
+        localStorage.setItem("token", token);
+      } catch (err) {
+        commit("error/display", err.data.message, { root: true });
+      }
     }
   },
   getters: {
