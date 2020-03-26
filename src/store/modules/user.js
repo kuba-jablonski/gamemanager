@@ -72,6 +72,23 @@ export default {
       } catch (err) {
         commit("error/display", err.data.message, { root: true });
       }
+    },
+    async resetPassword({ commit }, { password, passwordConfirm, resetToken }) {
+      try {
+        const {
+          token,
+          user: { games, ...user }
+        } = await api.patch(`/users/resetPassword/${resetToken}`, {
+          password,
+          passwordConfirm
+        });
+        localStorage.setItem("token", token);
+        commit("setUser", user);
+        commit("games/load", games, { root: true });
+        // router.push("/app");
+      } catch (err) {
+        commit("error/display", err.data.message, { root: true });
+      }
     }
   },
   getters: {

@@ -96,6 +96,7 @@ export default {
       this.sendingEmail = true;
       try {
         await api.post("/users/forgotPassword", { email: this.resetEmail });
+        this.resetEmail = "";
         this.dialog = false;
       } catch (err) {
         this.$store.commit("error/display", err.data.message);
