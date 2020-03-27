@@ -59,7 +59,7 @@ import { usernameField, emailField, passwordFields } from "@/mixins/formFields";
 // import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
 
 export default {
-  mixins: [validationMixin, usernameField, passwordFields, emailField],
+  mixins: [validationMixin, usernameField, emailField, passwordFields],
   data() {
     return {
       showPassword: false,

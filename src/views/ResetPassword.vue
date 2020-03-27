@@ -6,10 +6,10 @@
           <h2>Set new password</h2>
           <v-form @submit.prevent="onResetPassword">
             <v-text-field
-              v-model="newPassword"
+              v-model="password"
               label="New Password"
               :error-messages="passwordErrors"
-              @blur="$v.newPassword.$touch()"
+              @blur="$v.password.$touch()"
               required
               autocomplete="off"
             ></v-text-field>
@@ -38,45 +38,20 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minLength, sameAs } from "vuelidate/lib/validators";
+import { passwordFields } from "@/mixins/formFields";
 
 export default {
-  mixins: [validationMixin],
+  mixins: [validationMixin, passwordFields],
   data() {
     return {
-      newPassword: "",
-      passwordConfirm: "",
       loading: false
     };
-  },
-  validations: {
-    newPassword: { minLength: minLength(8), required },
-    passwordConfirm: { required, sameAsPassword: sameAs("newPassword") }
-  },
-  computed: {
-    passwordErrors() {
-      const errors = [];
-      if (!this.$v.newPassword.$dirty) return errors;
-      !this.$v.newPassword.minLength &&
-        errors.push("Password must be atleast 8 characters long");
-      !this.$v.newPassword.required && errors.push("Password is required");
-      return errors;
-    },
-    passwordConfirmErrors() {
-      const errors = [];
-      if (!this.$v.passwordConfirm.$dirty) return errors;
-      !this.$v.passwordConfirm.sameAsPassword &&
-        errors.push("Passwords must match");
-      !this.$v.passwordConfirm.required &&
-        errors.push("Please confirm your password");
-      return errors;
-    }
   },
   methods: {
     async onResetPassword() {
       this.loading = true;
       await this.$store.dispatch("user/resetPassword", {
-        password: this.newPassword,
+        password: this.password,
         passwordConfirm: this.passwordConfirm,
         resetToken: this.$route.params.token
       });
