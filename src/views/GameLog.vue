@@ -175,9 +175,6 @@ export default {
 
       await this.getGameDetails(val.id);
     }
-  },
-  mounted() {
-    this.$store.dispatch("getAllGames");
   }
 };
 </script>
