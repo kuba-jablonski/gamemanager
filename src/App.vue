@@ -2,13 +2,13 @@
   <v-app>
     <router-view />
     <v-snackbar
-      @input="$store.commit('error/dismiss')"
-      color="red"
-      v-model="$store.state.error.active"
+      @input="$store.commit('alert/dismiss')"
+      :color="$store.state.alert.type"
+      v-model="$store.state.alert.active"
       :timeout="5000"
     >
-      {{ $store.state.error.message }}
-      <v-btn text @click="$store.commit('error/dismiss')">
+      {{ $store.state.alert.message }}
+      <v-btn text @click="$store.commit('alert/dismiss')">
         Close
       </v-btn>
     </v-snackbar>

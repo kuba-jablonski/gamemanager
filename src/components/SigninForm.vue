@@ -100,7 +100,7 @@ export default {
         this.resetEmail = "";
         this.dialog = false;
       } catch (err) {
-        this.$store.commit("error/display", err.data.message);
+        this.$store.commit("alert/displayError", err.data.message);
       }
       this.sendingEmail = false;
     }

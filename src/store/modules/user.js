@@ -23,7 +23,7 @@ export default {
         commit("games/load", games, { root: true });
         router.push("/app");
       } catch (err) {
-        commit("error/display", err.data.message, { root: true });
+        commit("alert/displayError", err.data.message, { root: true });
       }
     },
     async logIn({ commit }, { rememberMe, ...credentials }) {
@@ -37,7 +37,7 @@ export default {
         commit("games/load", games, { root: true });
         router.push("/app");
       } catch (err) {
-        commit("error/display", err.data.message, { root: true });
+        commit("alert/displayError", err.data.message, { root: true });
       }
     },
     signOut({ commit }) {
@@ -54,7 +54,7 @@ export default {
         commit("setUser", user);
         commit("games/load", games, { root: true });
       } catch (err) {
-        commit("error/display", err.data.message, { root: true });
+        commit("alert/displayError", err.data.message, { root: true });
       }
     },
     async updateMe({ commit }, payload) {
@@ -62,7 +62,7 @@ export default {
         const { user } = await api.patch("/users/me", payload);
         commit("setUser", user);
       } catch (err) {
-        commit("error/display", err.data.message, { root: true });
+        commit("alert/displayError", err.data.message, { root: true });
       }
     },
     async changePassword({ commit }, payload) {
@@ -70,7 +70,7 @@ export default {
         const { token } = await api.patch("/users/updateMyPassword", payload);
         localStorage.setItem("token", token);
       } catch (err) {
-        commit("error/display", err.data.message, { root: true });
+        commit("alert/displayError", err.data.message, { root: true });
       }
     },
     async resetPassword({ commit }, { password, passwordConfirm, resetToken }) {
@@ -87,7 +87,7 @@ export default {
         commit("games/load", games, { root: true });
         // router.push("/app");
       } catch (err) {
-        commit("error/display", err.data.message, { root: true });
+        commit("alert/displayError", err.data.message, { root: true });
       }
     }
   },

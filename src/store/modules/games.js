@@ -30,7 +30,7 @@ export default {
         });
         commit("add", game);
       } catch (err) {
-        commit("error/display", err.data.message, { root: true });
+        commit("alert/displayError", err.data.message, { root: true });
       }
     },
     async updateOne({ commit }, { gameId, updatedStatus }) {
@@ -40,7 +40,7 @@ export default {
           status: updatedStatus
         });
       } catch (err) {
-        commit("error/display", err.data.message, { root: true });
+        commit("alert/displayError", err.data.message, { root: true });
       }
     },
     async deleteOne({ commit }, gameId) {
@@ -48,7 +48,7 @@ export default {
         commit("deleteOne", gameId);
         await api.delete(`games/${gameId}`);
       } catch (err) {
-        commit("error/display", err.data.message, { root: true });
+        commit("alert/displayError", err.data.message, { root: true });
       }
     }
   },
