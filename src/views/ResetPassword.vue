@@ -23,6 +23,7 @@
             ></v-text-field>
             <v-btn
               :loading="loading"
+              :disabled="submitDisabled"
               class="mt-2"
               color="primary"
               depressed
@@ -46,6 +47,12 @@ export default {
     return {
       loading: false
     };
+  },
+  computed: {
+    submitDisabled() {
+      console.log(this.$v.$invalid);
+      return this.$v.$invalid;
+    }
   },
   methods: {
     async onResetPassword() {
