@@ -26,13 +26,13 @@ export default {
         commit("error/display", err.data.message, { root: true });
       }
     },
-    async logIn({ commit }, payload) {
+    async logIn({ commit }, { rememberMe, ...credentials }) {
       try {
         const {
           token,
           user: { games, ...user }
-        } = await api.post("/users/login", payload);
-        localStorage.setItem("token", token);
+        } = await api.post("/users/login", credentials);
+        if (rememberMe) localStorage.setItem("token", token);
         commit("setUser", user);
         commit("games/load", games, { root: true });
         router.push("/app");

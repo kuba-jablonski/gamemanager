@@ -87,7 +87,8 @@ export default {
 
       await this.$store.dispatch("user/logIn", {
         email: this.email,
-        password: this.password
+        password: this.password,
+        rememberMe: this.rememberMe
       });
 
       this.isLoading = false;
