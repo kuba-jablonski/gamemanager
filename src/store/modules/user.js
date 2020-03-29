@@ -61,6 +61,7 @@ export default {
       try {
         const { user } = await api.patch("/users/me", payload);
         commit("setUser", user);
+        commit("alert/displaySuccess", "Updated successfully", { root: true });
       } catch (err) {
         commit("alert/displayError", err.data.message, { root: true });
       }
@@ -69,6 +70,7 @@ export default {
       try {
         const { token } = await api.patch("/users/updateMyPassword", payload);
         localStorage.setItem("token", token);
+        commit("alert/displaySuccess", "Updated successfully", { root: true });
       } catch (err) {
         commit("alert/displayError", err.data.message, { root: true });
       }
