@@ -1,11 +1,12 @@
 import Vue from "vue";
 import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
+import store from "@/store";
 
 const strategies = Vue.config.optionMergeStrategies;
 strategies.validations = strategies.methods;
 
-export const usernameField = {
-  data: () => ({ username: "" }),
+export const usernameField = (filled = false) => ({
+  data: () => ({ username: filled ? store.state.user.user.username : "" }),
   validations: { username: { required, minLength: minLength(4) } },
   computed: {
     usernameErrors() {
@@ -17,10 +18,10 @@ export const usernameField = {
       return errors;
     }
   }
-};
+});
 
-export const emailField = {
-  data: () => ({ email: "" }),
+export const emailField = (filled = false) => ({
+  data: () => ({ email: filled ? store.state.user.user.email : "" }),
   validations: { email: { required, email } },
   computed: {
     emailErrors() {
@@ -31,7 +32,7 @@ export const emailField = {
       return errors;
     }
   }
-};
+});
 
 export const passwordFields = {
   data: () => ({ password: "", passwordConfirm: "" }),

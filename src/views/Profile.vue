@@ -71,7 +71,12 @@ import { usernameField, emailField, passwordFields } from "@/mixins/formFields";
 import LayoutApp from "@/components/LayoutApp";
 
 export default {
-  mixins: [validationMixin, usernameField, emailField, passwordFields],
+  mixins: [
+    validationMixin,
+    usernameField(true),
+    emailField(true),
+    passwordFields
+  ],
   components: {
     LayoutApp
   },

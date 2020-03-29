@@ -58,7 +58,7 @@ import { validationMixin } from "vuelidate";
 import { usernameField, emailField, passwordFields } from "@/mixins/formFields";
 
 export default {
-  mixins: [validationMixin, usernameField, emailField, passwordFields],
+  mixins: [validationMixin, usernameField(), emailField(), passwordFields],
   data() {
     return {
       showPassword: false,
