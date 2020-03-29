@@ -34,7 +34,7 @@
       <v-sheet max-width="600" class="mx-auto">
         <v-container>
           <h2>Change password</h2>
-          <v-form @submit.prevent="onUpdatePassword">
+          <v-form @submit.prevent="onChangePassword">
             <v-text-field
               v-model="currentPassword"
               label="Current Password"
@@ -57,13 +57,7 @@
               required
               autocomplete="off"
             ></v-text-field>
-            <v-btn
-              color="primary"
-              @click="onChangePassword"
-              depressed
-              type="submit"
-              >Save password</v-btn
-            >
+            <v-btn color="primary" depressed type="submit">Save password</v-btn>
           </v-form>
         </v-container>
       </v-sheet>
@@ -114,6 +108,10 @@ export default {
           password: this.password,
           passwordConfirm: this.passwordConfirm
         });
+        this.currentPassword = "";
+        this.password = "";
+        this.passwordConfirm = "";
+        this.$v.$reset();
         this.changingPassword = false;
       }
     }
