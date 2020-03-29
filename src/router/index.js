@@ -11,7 +11,11 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: Home
+    component: Home,
+    beforeEnter: (to, from, next) =>
+      store.getters["user/isAuthed"] && from.path === "/"
+        ? next("/app")
+        : next()
   },
   {
     path: "/app",
