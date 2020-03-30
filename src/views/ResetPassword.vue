@@ -23,7 +23,6 @@
             ></v-text-field>
             <v-btn
               :loading="loading"
-              :disabled="submitDisabled"
               class="mt-2"
               color="primary"
               depressed
@@ -48,19 +47,17 @@ export default {
       loading: false
     };
   },
-  computed: {
-    submitDisabled() {
-      return this.$v.$invalid;
-    }
-  },
   methods: {
     async onResetPassword() {
       this.loading = true;
-      await this.$store.dispatch("user/resetPassword", {
-        password: this.password,
-        passwordConfirm: this.passwordConfirm,
-        resetToken: this.$route.params.token
-      });
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        await this.$store.dispatch("user/resetPassword", {
+          password: this.password,
+          passwordConfirm: this.passwordConfirm,
+          resetToken: this.$route.params.token
+        });
+      }
       this.loading = false;
     }
   }
