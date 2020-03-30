@@ -40,7 +40,7 @@ export default {
         this.items = data.results;
       } catch (e) {
         // TODO: handle errors
-        console.log(e);
+        // console.log(e);
       }
       this.isLoading = false;
     }, 500)
@@ -55,7 +55,7 @@ export default {
       } catch (e) {
         if (e !== "canceled") {
           // TODO: handle errors
-          console.log(e);
+          // console.log(e);
         }
       }
     }

@@ -50,7 +50,6 @@ export default {
   },
   computed: {
     submitDisabled() {
-      console.log(this.$v.$invalid);
       return this.$v.$invalid;
     }
   },
