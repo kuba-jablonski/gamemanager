@@ -59,7 +59,7 @@
               </span>
               <span>Created by Jakub Jabłoński.</span>
             </p>
-            <v-btn outlined color="secondary">Learn more</v-btn>
+            <v-btn to="/about" outlined color="secondary">Learn more</v-btn>
           </div>
         </v-container>
         <game-svg class="icon" />
