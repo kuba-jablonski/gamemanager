@@ -1,11 +1,7 @@
 <template>
-  <layout-app>
-    <template v-slot:search>
-      <game-search v-model="game" />
-    </template>
-
+  <v-container fluid>
     <!-- DIALOG START -->
-    <v-dialog v-model="dialog" max-width="700" @click:outside="onCloseDialog">
+    <v-dialog v-model="dialog" max-width="700" @click:outside="closeDialog">
       <v-card v-if="gameDetails">
         <v-img
           height="300"
@@ -62,41 +58,35 @@
     </v-dialog>
     <!-- DIALOG END -->
 
-    <v-container fluid>
-      <v-row>
-        <v-col cols="12" md="6" lg="3" v-for="log in logs" :key="log.type">
-          <log-card
-            @onGameClick="openDetailsDialog($event)"
-            @onUpdateItemClick="handleGameUpdate($event)"
-            @onDeleteItemClick="handleGameDelete($event)"
-            :games="_self[log.type]"
-            :title="log.title"
-            :color="log.color"
-            :icon="log.icon"
-          />
-        </v-col>
-      </v-row>
-    </v-container>
-  </layout-app>
+    <v-row>
+      <v-col cols="12" md="6" lg="3" v-for="log in logs" :key="log.type">
+        <log-card
+          @onGameClick="openDetailsDialog($event)"
+          @onUpdateItemClick="handleGameUpdate($event)"
+          @onDeleteItemClick="handleGameDelete($event)"
+          :games="_self[log.type]"
+          :title="log.title"
+          :color="log.color"
+          :icon="log.icon"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import axios from "axios";
 import { mapGetters } from "vuex";
-import LayoutApp from "@/components/LayoutApp";
-import GameSearch from "@/components/GameSearch";
 import LogCard from "@/components/LogCard";
 
 export default {
+  props: ["game"],
   components: {
-    LayoutApp,
-    GameSearch,
     LogCard
   },
   data: () => ({
     dialog: false,
     dialogType: null,
-    game: null,
     gameDetails: null,
     fab: false,
     logs: [
@@ -137,9 +127,9 @@ export default {
       this.dialog = true;
       this.getGameDetails(id);
     },
-    onCloseDialog() {
+    closeDialog() {
       this.dialog = false;
-      this.game = null;
+      this.$emit("onCloseDialog");
       this.gameDetails = null;
     },
     async addToLog(type) {
