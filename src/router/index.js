@@ -31,8 +31,8 @@ const routes = [
         name: "app",
         component: GameLog
       },
-      { path: "profile", component: Profile },
-      { path: "about", component: About }
+      { path: "profile", name: "Profile", component: Profile },
+      { path: "about", name: "About", component: About }
     ]
   },
   {

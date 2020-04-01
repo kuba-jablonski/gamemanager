@@ -40,7 +40,7 @@
     <v-app-bar app clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="d-none d-md-flex">GameManager</v-toolbar-title>
-      <div class="search">
+      <div v-if="withSearch" class="search">
         <game-search v-model="game" />
       </div>
     </v-app-bar>
@@ -59,12 +59,19 @@ export default {
   data() {
     return {
       drawer: this.$vuetify.breakpoint.lgAndUp,
-      game: null
+      game: null,
+      withSearch: false
     };
   },
   methods: {
     handleSignout() {
       this.$store.dispatch("user/signOut");
+    }
+  },
+  watch: {
+    $route(val) {
+      if (val.path === "/app") this.withSearch = true;
+      else this.withSearch = false;
     }
   }
 };
