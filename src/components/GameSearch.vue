@@ -38,9 +38,8 @@ export default {
           `https://api.rawg.io/api/games?search=${searchTerm}&page_size=40`
         );
         this.items = data.results;
-      } catch (e) {
-        // TODO: handle errors
-        // console.log(e);
+      } catch (err) {
+        this.$store.commit("alert/displayError", err.message);
       }
       this.isLoading = false;
     }, 500)
@@ -52,10 +51,9 @@ export default {
 
       try {
         await this.fetchData(val);
-      } catch (e) {
-        if (e !== "canceled") {
-          // TODO: handle errors
-          // console.log(e);
+      } catch (err) {
+        if (err !== "canceled") {
+          this.$store.commit("alert/displayError", err.message);
         }
       }
     }
