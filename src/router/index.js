@@ -5,6 +5,7 @@ import MainApp from "../views/MainApp.vue";
 import GameLog from "../views/GameLog.vue";
 import Profile from "../views/Profile.vue";
 import About from "../views/About.vue";
+import PageNotFound from "../views/PageNotFound.vue";
 import store from "@/store";
 
 Vue.use(VueRouter);
@@ -43,6 +44,10 @@ const routes = [
     path: "/about",
     component: About,
     props: { withNav: true }
+  },
+  {
+    path: "*",
+    component: PageNotFound
   }
 ];
 
