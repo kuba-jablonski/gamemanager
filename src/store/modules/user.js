@@ -87,7 +87,7 @@ export default {
         localStorage.setItem("token", token);
         commit("setUser", user);
         commit("games/load", games, { root: true });
-        // router.push("/app");
+        router.replace("/app");
       } catch (err) {
         commit("alert/displayError", err.data.message, { root: true });
       }
