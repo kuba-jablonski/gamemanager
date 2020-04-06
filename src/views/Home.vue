@@ -10,11 +10,11 @@
                 <h3 class="font-weight-black">GameManager</h3>
               </div>
               <h1 class="text-center mb-10">Welcome Back</h1>
-              <v-btn block depressed large>Log in with Google</v-btn>
+              <!-- <v-btn block depressed large>Log in with Google</v-btn> -->
               <div
                 class="grey--text text--lighten-1 text-uppercase decorated mt-8 mb-4"
               >
-                <span>or log in with email</span>
+                <span>log in with email</span>
               </div>
               <signin-form />
               <div class="grey--text text-center mt-5">

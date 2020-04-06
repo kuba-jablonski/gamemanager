@@ -33,7 +33,7 @@
 
       <template v-slot:append>
         <div class="pb-3 px-2">
-          <v-btn @click="handleSignout" block>Logout</v-btn>
+          <v-btn dark @click="handleSignout" block>Logout</v-btn>
         </div>
       </template>
     </v-navigation-drawer>
