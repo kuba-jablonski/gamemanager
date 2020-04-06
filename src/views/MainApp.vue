@@ -69,9 +69,12 @@ export default {
     }
   },
   watch: {
-    $route(val) {
-      if (val.path === "/app") this.withSearch = true;
-      else this.withSearch = false;
+    "$route.path": {
+      handler(val) {
+        if (val === "/app") this.withSearch = true;
+        else this.withSearch = false;
+      },
+      immediate: true
     }
   }
 };
