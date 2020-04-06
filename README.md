@@ -1,24 +1,16 @@
-# game-backlog
+# GameManager
 
-## Project setup
-```
-yarn install
-```
+An application which helps to keep track of and organize your games.
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+![Preview screenshot](preview.png?raw=true)
 
-### Compiles and minifies for production
-```
-yarn build
-```
+## About
 
-### Lints and fixes files
-```
-yarn lint
-```
+This is a fullstack learning project, utilizing modern frontend and backend techonologies.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Stack
+
+- [Vue.js](https://vuejs.org/)
+- [Vuetify](https://vuetifyjs.com/)
+- [Express](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/)
